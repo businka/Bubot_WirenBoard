@@ -1,0 +1,14 @@
+{
+  "/oic/d": {
+    "di": "6d350e5d-8b7c-459e-a671-e5860b318796"
+  },
+  "/oic/con": {
+    "host": "192.168.1.25"
+  },
+  "/modbus_msg": {
+    "slave": 130,
+    "function": 4,
+    "pdu": "ANwAFQ==",
+    "answerSize": 44
+  }
+}

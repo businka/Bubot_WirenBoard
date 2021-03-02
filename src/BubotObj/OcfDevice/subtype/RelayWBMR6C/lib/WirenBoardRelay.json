@@ -1,0 +1,70 @@
+[
+  {
+    "id": "switch_1",
+    "table": "coil",
+    "address": 0,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "switch_2",
+    "table": "coil",
+    "address": 1,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "switch_3",
+    "table": "coil",
+    "address": 2,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "switch_4",
+    "table": "coil",
+    "address": 3,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "switch_5",
+    "table": "coil",
+    "address": 4,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "switch_6",
+    "table": "coil",
+    "address": 5,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "slave_id",
+    "table": "holding",
+    "address": 128,
+    "formatter": "integer",
+    "minimum": 1,
+    "maximum": 254,
+    "default": "100"
+  },
+  {
+    "id": "model",
+    "table": "input",
+    "address": 200,
+    "readOnly": true,
+    "formatter": "string",
+    "maximum": 6
+  },
+  {
+    "id": "version",
+    "table": "input",
+    "address": 220,
+    "readOnly": true,
+    "formatter": "string",
+    "maximum": 21
+  }
+]
+

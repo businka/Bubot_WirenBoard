@@ -1,0 +1,109 @@
+{
+  "/oic/d": {
+    "n": "Relay WB-MR6C"
+  },
+  "/oic/p": {
+    "mnmn": "wirenboard",
+    "mnml": "https://wirenboard.com",
+    "mnmo": "WB-MR6C"
+  },
+  "/oic/con": {
+    "rt": [
+      "bubot.modbus.slave.con"
+    ],
+    "master": {
+      "anchor": "",
+      "href": "/modbus_msg",
+      "eps": []
+    },
+    "slave": 0,
+    "baudRate": 9600,
+    "parity": 0,
+    "dataBits": 8,
+    "stopBits": 2
+  },
+  "/switch/1": {
+    "n": "Switch 1",
+    "rt": [
+      "oic.r.switch.binary"
+    ],
+    "if": [
+      "oic.if.baseline",
+      "oic.if.a"
+    ],
+    "p": {
+      "bm": 1
+    },
+    "value": false
+  },
+  "/switch/2": {
+    "n": "Switch 2",
+    "rt": [
+      "oic.r.switch.binary"
+    ],
+    "if": [
+      "oic.if.baseline",
+      "oic.if.a"
+    ],
+    "p": {
+      "bm": 1
+    },
+    "value": false
+  },
+  "/switch/3": {
+    "n": "Switch 3",
+    "rt": [
+      "oic.r.switch.binary"
+    ],
+    "if": [
+      "oic.if.baseline",
+      "oic.if.a"
+    ],
+    "p": {
+      "bm": 1
+    },
+    "value": false
+  },
+  "/switch/4": {
+    "n": "Switch 4",
+    "rt": [
+      "oic.r.switch.binary"
+    ],
+    "if": [
+      "oic.if.baseline",
+      "oic.if.a"
+    ],
+    "p": {
+      "bm": 1
+    },
+    "value": false
+  },
+  "/switch/5": {
+    "n": "Switch 5",
+    "rt": [
+      "oic.r.switch.binary"
+    ],
+    "if": [
+      "oic.if.baseline",
+      "oic.if.a"
+    ],
+    "p": {
+      "bm": 1
+    },
+    "value": false
+  },
+  "/switch/6": {
+    "n": "Switch 6",
+    "rt": [
+      "oic.r.switch.binary"
+    ],
+    "if": [
+      "oic.if.baseline",
+      "oic.if.a"
+    ],
+    "p": {
+      "bm": 1
+    },
+    "value": false
+  }
+}
