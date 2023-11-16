@@ -8,6 +8,15 @@
     "n": "Dimmer WB-MRGB-D"
   },
   "/oic/con": {
+    "rt": [
+      "bubot.modbus.slave.con"
+    ],
+    "master": {
+      "anchor": "",
+      "href": "modbus_msg",
+      "eps": []
+    },
+    "slave": 0,
     "baudRate": 9600,
     "parity": 0,
     "dataBits": 8,

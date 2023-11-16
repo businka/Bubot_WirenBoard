@@ -5,7 +5,7 @@ from datetime import datetime
 
 from bubot.core.TestHelper import wait_run_device, wait_cancelled_device
 from bubot_modbus.buject.OcfDevice.subtype.SerialServerHF511.SerialServerHF511 import SerialServerHF511 as ModbusDevice
-from bubot_wirenboard.buject.OcfDevice.subtype.DimmerWBMRGBWD.DimmerWBMRGBWD import DimmerWBMRGBWD as Device
+from bubot_wirenboard.buject.OcfDevice.subtype.DimmerWBLED.DimmerWBLED import DimmerWBLED as Device
 
 logging.basicConfig()
 logger = logging.getLogger()
@@ -14,13 +14,13 @@ logger = logging.getLogger('Bubot_CoAP')
 logger.setLevel(logging.ERROR)
 
 
-class TestDimmerWBMRGBWD(unittest.IsolatedAsyncioTestCase):
+class TestDimmerWBLED(unittest.IsolatedAsyncioTestCase):
     pass
     net_interface = "192.168.1.11"
     config = {
         '/oic/con': {
             'master': dict(),
-            'slave': 0x94,
+            'slave': 152,
             'baudRate': 9600,
             'parity': 'None',
             'dataBits': 8,

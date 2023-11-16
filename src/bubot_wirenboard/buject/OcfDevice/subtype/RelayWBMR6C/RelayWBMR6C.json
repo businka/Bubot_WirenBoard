@@ -13,7 +13,7 @@
     ],
     "master": {
       "anchor": "",
-      "href": "/modbus_msg",
+      "href": "modbus_msg",
       "eps": []
     },
     "slave": 0,

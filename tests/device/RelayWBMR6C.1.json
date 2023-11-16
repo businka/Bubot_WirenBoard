@@ -1,0 +1,28 @@
+{
+  "/oic/d": {
+    "piid": "5e1a3cb0-8b2f-4495-bae4-3db54afd0c32",
+    "di": "1"
+  },
+  "/oic/con": {
+    "udpCoapPort": 58509,
+    "slave": 111,
+    "master": {
+      "anchor": "ocf://6d350e5d-8b7c-459e-a671-e5860b318796",
+      "eps": [
+        {
+          "ep": "coap://192.168.1.11:58507",
+          "net_interface": "192.168.1.11"
+        }
+      ]
+    },
+    "parity": "None"
+  },
+  "/oic/sec/doxm": {
+    "deviceuuid": "1"
+  },
+  "/oic/sec/pstat": {
+    "dos": {
+      "s": 0
+    }
+  }
+}

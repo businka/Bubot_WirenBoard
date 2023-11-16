@@ -1,13 +1,14 @@
-import unittest
 import asyncio
-import socket
-from .WirenBoardRelay import WirenBoardRelay as Device
-from aio_modbus_client.TransportSocket import TransportSocket as Modbus
-from aio_modbus_client.ModbusProtocolRtuHF5111 import ModbusProtocolRtuHF5111 as Protocol
+import inspect
 # from aio_modbus_client.ModbusProtocolTcp import ModbusProtocolTcp as Protocol
 # from aio_modbus_client.ModbusProtocolRtu import ModbusProtocolRtu as Protocol
 import logging
-import inspect
+import socket
+import unittest
+
+from aio_modbus_client.ModbusProtocolRtuHF5111 import ModbusProtocolRtuHF5111 as Protocol
+from aio_modbus_client.TransportSocket import TransportSocket as Modbus
+from .WirenBoardRelay import WirenBoardRelay as Device
 
 
 def async_test(f):
@@ -26,13 +27,12 @@ def async_test(f):
 
 class TestWirenBoardRelay(unittest.TestCase):
 
-
     @classmethod
     def setUpClass(cls):
         logging.basicConfig(level=logging.ERROR)
-        cls.device_address = 111
-        cls.address = ('192.168.1.25', 502)
-        cls.device = Device(cls.device_address, Protocol(Modbus(host=cls.address[0], port=cls.address[1])))
+        device_address = 111
+        address = ('192.168.1.25', 502)
+        cls.device = Device(device_address, Protocol(Modbus(host=address[0], port=address[1])))
 
     def setUp(self):
         pass

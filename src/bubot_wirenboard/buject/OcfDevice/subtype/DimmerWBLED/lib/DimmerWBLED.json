@@ -1,0 +1,148 @@
+[
+  {
+    "id": "power_4w",
+    "table": "coil",
+    "address": 6,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "power_rgb",
+    "table": "coil",
+    "address": 9,
+    "formatter": "boolean",
+    "default": false
+  },
+  {
+    "id": "brightness_4w",
+    "table": "holding",
+    "address": 2000,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 100,
+    "default": 50
+  },
+  {
+    "id": "brightness_rgb",
+    "table": "holding",
+    "address": 2000,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 100,
+    "default": 50
+  },
+  {
+    "id": "current_supply_voltage",
+    "table": "input",
+    "address": 121,
+    "formatter": "integer"
+  },
+  {
+    "id": "reboot",
+    "table": "holding",
+    "address": 120,
+    "formatter": "integer"
+  },
+  {
+    "id": "short_press_action",
+    "table": "holding",
+    "address": 120,
+    "formatter": "integer"
+  },
+  {
+    "id": "input1_short_press_action",
+    "table": "holding",
+    "address": 1000,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 65535
+  },
+  {
+    "id": "input1_long_press_action",
+    "table": "holding",
+    "address": 1020,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 65535
+  },
+  {
+    "id": "level_red",
+    "table": "holding",
+    "address": 2011,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 255,
+    "default": "0"
+  },
+  {
+    "id": "level_green",
+    "table": "holding",
+    "address": 2012,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 255,
+    "default": "0"
+  },
+  {
+    "id": "level_blue",
+    "table": "holding",
+    "address": 2013,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 255,
+    "default": "0"
+  },
+  {
+    "id": "dimmer_mode",
+    "table": "holding",
+    "address": 4000,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 512,
+    "default": 256
+  },
+  {
+    "id": "dimmer",
+    "description": "dimming (x10ms)",
+    "table": "holding",
+    "address": 13,
+    "formatter": "integer",
+    "minimum": 0,
+    "maximum": 255,
+    "default": "100"
+  },
+  {
+    "id": "slave_id",
+    "table": "holding",
+    "address": 128,
+    "formatter": "integer",
+    "minimum": 1,
+    "maximum": 254,
+    "default": "100"
+  },
+  {
+    "id": "model",
+    "table": "input",
+    "address": 200,
+    "readOnly": true,
+    "formatter": "string",
+    "maximum": 20
+  },
+  {
+    "id": "version",
+    "table": "input",
+    "address": 250,
+    "readOnly": true,
+    "formatter": "string",
+    "maximum": 16
+  },
+  {
+    "id": "serial",
+    "table": "holding",
+    "address": 270,
+    "readOnly": true,
+    "formatter": "string",
+    "maximum": 2
+  }
+]
+

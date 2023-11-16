@@ -1,5 +1,6 @@
-from aio_modbus_client.ModbusDevice import ModbusDevice
 import logging
+
+from aio_modbus_client.ModbusDevice import ModbusDevice
 
 _logger = logging.getLogger(__name__)
 

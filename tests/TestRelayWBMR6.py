@@ -1,15 +1,21 @@
-import unittest
-from BubotObj.OcfDevice.subtype.RelayWBMR6C.RelayWBMR6C import RelayWBMR6C as Device
-from BubotObj.OcfDevice.subtype.SerialServerHF511.SerialServerHF511 import SerialServerHF511 as ModbusDevice
-from Bubot.Core.OcfMessage import OcfRequest
-from Bubot.Core.TestHelper import async_test, wait_run_device, get_config_path, wait_cancelled_device
-import logging
 import asyncio
+import logging
+import unittest
 from datetime import datetime
 
+from bubot.core.TestHelper import wait_run_device, wait_cancelled_device
+from bubot_modbus.buject.OcfDevice.subtype.SerialServerHF511.SerialServerHF511 import SerialServerHF511 as ModbusDevice
+from bubot_wirenboard.buject.OcfDevice.subtype.RelayWBMR6C.RelayWBMR6C import RelayWBMR6C as Device
 
-class TestRelayWBMR6C(unittest.TestCase):
-    pass
+logging.basicConfig()
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+logger = logging.getLogger('Bubot_CoAP')
+logger.setLevel(logging.ERROR)
+
+
+class TestRelayWBMR6C(unittest.IsolatedAsyncioTestCase):
+    net_interface = "192.168.1.11"
     config = {
         '/oic/con': {
             'master': dict(),
@@ -18,11 +24,28 @@ class TestRelayWBMR6C(unittest.TestCase):
             'parity': 'None',
             'dataBits': 8,
             'stopBits': 2,
-            'udpCoapPort': 17771,
-            'udpCoapIPv4': False,
-            'udpCoapIPv6': True
+            'udpCoapIPv6': None
         }
 
+    }
+    bad_ip_config = {
+        "/oic/d": {
+            "di": "1"
+        },
+        "/oic/con": {
+            "master": {
+                # "anchor": "ocf://6d350e5d-8b7c-459e-a671-e5860b318796",
+                "di": "6d350e5d-8b7c-459e-a671-e5860b318796",
+                "href": "/modbus_msg",
+                "eps": [
+                    {
+                        "ep": "coap://192.168.1.11:61169",
+                        "net_interface": "192.168.1.11"
+                    }
+                ]
+            },
+            "slave": 113
+        }
     }
     modbus_config = {
         '/oic/con': {
@@ -32,85 +55,52 @@ class TestRelayWBMR6C(unittest.TestCase):
             'parity': 0,
             'dataBits': 8,
             'stopBits': 2,
-            'udpCoapPort': 17772,
-            'udpCoapIPv4': False,
-            'udpCoapIPv6': True
+            'udpCoapIPv4': True,
+            'udpCoapIPv6': False
         }
     }
-    @async_test
-    async def setUp(self, **kwargs):
-        logging.basicConfig(level=logging.DEBUG)
-        self.config_path = get_config_path(__file__)
 
-    @async_test
-    async def test_get_update_switch(self):
+    async def asyncSetUp(self) -> None:
+        self.modbus_device = ModbusDevice.init_from_file(di='2')
+        self.modbus_task = await wait_run_device(self.modbus_device)
+        self.config['/oic/con']['master']['anchor'] = self.modbus_device.link['anchor']
+        self.config['/oic/con']['master']['eps'] = self.modbus_device.link['eps']
+        self.config['/oic/con']['master']['eps'][0]['net_interface'] = self.net_interface
+        self.device = Device.init_from_config(self.config, di='1')
+        self.device_task = await wait_run_device(self.device)
+
+    async def asyncTearDown(self) -> None:
+        await wait_cancelled_device(self.device, self.device_task)
+        await wait_cancelled_device(self.modbus_device, self.modbus_task)
+
+    async def test_update_switch(self):
         number = 1
         value = False
-        modbus_device = ModbusDevice.init_from_config(self.modbus_config, path=self.config_path)
-        mobus_task = await wait_run_device(modbus_device)
-        self.config['/oic/con']['master'] = modbus_device.link
-        self.device = Device.init_from_config(self.config, path=self.config_path)
-        device_task = await wait_run_device(self.device)
-        message = OcfRequest(op='update', to=dict(href='/switch/{}'.format(number)), cn=dict(value=value))
-        result = await self.device.on_post_request(message)
-        self.assertEqual(result['value'], value)
+        result1 = (await self.device.retrieve_switch(number))['value']
+        result2 = (await self.device.update_switch(number, not result1))['value']
+        result3 = (await self.device.retrieve_switch(number))['value']
+        self.assertEqual(result3, not result1)
+        result4 = (await self.device.update_switch(number, result1))['value']
+        result5 = (await self.device.retrieve_switch(number))['value']
+        self.assertEqual(result5, result1)
 
-    @async_test
-    async def test_get_retrieve_switch(self):
-        number = 1
-        value = False
-        modbus_device = ModbusDevice.init_from_config(self.modbus_config, path=self.config_path)
-        mobus_task = await wait_run_device(modbus_device)
-        self.config['/oic/con']['master'] = modbus_device.link
-        self.device = Device.init_from_config(self.config, path=self.config_path)
-        device_task = await wait_run_device(self.device)
-        message = OcfRequest(op='retrieve', to=dict(href='/switch/{}'.format(number)))
-        result = await self.device.on_post_request(message)
-        self.assertEqual(result['value'], value)
-
-    @async_test
-    async def test_get_retrieve_model(self):
-        modbus_device = ModbusDevice.init_from_config(self.modbus_config, path=self.config_path)
-        mobus_task = await wait_run_device(modbus_device)
-        self.config['/oic/con']['master'] = modbus_device.link
-        self.device = Device.init_from_config(self.config, path=self.config_path)
-        device_task = await wait_run_device(self.device)
+    async def test_retrieve_model(self):
         res = await self.device.modbus.is_device()
         self.assertTrue(res)
 
-    @async_test
-    async def test_retrieve_switch(self):
-        number = 1
-        value = False
-        modbus_device = ModbusDevice.init_from_config(self.modbus_config, path=self.config_path)
-        mobus_task = await wait_run_device(modbus_device)
-        self.config['/oic/con']['master'] = modbus_device.link
-        self.device = Device.init_from_config(self.config, path=self.config_path)
-        device_task = await wait_run_device(self.device)
-
-        tasks = []
-        for i in range(16):
-            message = OcfRequest(op='retrieve', to=dict(href='/switch/{}'.format(number)))
-            tasks.append(self.device.on_post_request(message))
-        res = await asyncio.gather(*tasks)
-        pass
-
-    @async_test
     async def test_maximum_load(self):
-        modbus_device = ModbusDevice.init_from_file('SerialServerHF511', '2')
-        modbus_task = await wait_run_device(modbus_device)
-        self.config['/oic/con']['master']['anchor'] = modbus_device.link['anchor']
-        self.config['/oic/con']['master']['eps'] = modbus_device.link['eps']
-        device = Device.init_from_config(self.config, path=self.config_path)
-        device_task = await wait_run_device(device)
         task = []
-        count = 50
         for i in range(50):
-            message = OcfRequest(op='retrieve', to=dict(href='/switch/1'))
-            task.append(device.on_get_request(message))
+            task.append(self.device.retrieve_switch(1))
         begin = datetime.now()
         result = await asyncio.gather(*task)
         end = datetime.now()
         print(end - begin)
-        await wait_cancelled_device(device, device_task)
-        await wait_cancelled_device(modbus_device, modbus_task)
+
+    async def test_find_devices(self):
+        res = await self.device.find_devices(notify=notify)
+        pass
+
+
+async def notify(data):
+    print(data)

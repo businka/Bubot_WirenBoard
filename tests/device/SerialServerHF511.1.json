@@ -1,6 +1,7 @@
 {
   "/oic/d": {
-    "di": "1"
+    "di": "1",
+    "piid": "58e6712b-a1b6-4d94-a0f4-67d0e903b1bf"
   },
   "/oic/con": {
     "udpCoapPort": 60104,
@@ -14,5 +15,10 @@
       ]
     },
     "slave": 113
+  },
+  "/oic/sec/pstat": {
+    "dos": {
+      "s": 0
+    }
   }
 }

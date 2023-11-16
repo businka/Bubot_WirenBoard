@@ -1,6 +1,10 @@
+import copy
+import logging
+
 from aio_modbus_client.ModbusDevice import ModbusDevice
 from .ColorHelper import ColorHelper
-import copy
+
+_logger = logging.getLogger(__name__)
 
 
 class WirenBoardDimmer(ModbusDevice):
@@ -16,7 +20,7 @@ class WirenBoardDimmer(ModbusDevice):
         _power = max(*color) != 0
         if _power:
             _color = copy.deepcopy(color)
-        else:   # black
+        else:  # black
             _color = copy.deepcopy(self.data.get(
                 'color',
                 self.get_default_param_value('color')
@@ -42,7 +46,7 @@ class WirenBoardDimmer(ModbusDevice):
         if value == _power:
             return value
         if value:
-            await self.write_param('color',  self.data['color'])
+            await self.write_param('color', self.data['color'])
         else:
             await self.write_param('color', [0, 0, 0])
         return True
@@ -55,7 +59,7 @@ class WirenBoardDimmer(ModbusDevice):
         await self.is_power_on()
         _color = ColorHelper.get_clear_color_by_color(self.data['color'])
         _color = ColorHelper.get_rate_color(_color, value)
-        await self.write_param('color',  _color)
+        await self.write_param('color', _color)
         # if not _power:
         #     self.write_param('color', [0, 0, 0])
         return True
@@ -71,4 +75,3 @@ class WirenBoardDimmer(ModbusDevice):
         if result in ['WBMRGB']:
             return True
         return False
-

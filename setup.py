@@ -1,5 +1,5 @@
 import setuptools
-from src.BubotObj.OcfDevice.subtype.DimmerWBMRGBWD import __version__
+from bubot_wirenboard.buject.OcfDevice.subtype.DimmerWBLED import __version__
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
